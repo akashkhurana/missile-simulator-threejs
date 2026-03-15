@@ -1,8 +1,8 @@
-# Missile Simulation ThreeJS 🚀
+# Missile Simulator 🚀
 
 Advanced 3D Surface-to-Air Missile (SAM) defense simulation built with **Three.js**, **GSAP**, and **Vite**. Experience high-fidelity tactical engagement sequences with a cinematic HUD and realistic intercept physics.
 
-![Simulation Preview](https://raw.githubusercontent.com/akash/missile-simulation-threejs/main/public/preview-hero.jpg) *(Note: Replace with your actual screenshot)*
+![Simulation Preview](https://raw.githubusercontent.com/akash/missile-simulator/main/public/preview-hero.jpg) *(Note: Replace with your actual screenshot)*
 
 ## ✨ Key Features
 

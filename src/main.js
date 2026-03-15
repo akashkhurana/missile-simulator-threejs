@@ -79,7 +79,7 @@ class App {
     window.addEventListener('resize', () => this._onResize());
 
     // Initial status
-    this.hud.showStatus('AEGIS DEFENSE SYSTEM ONLINE', 'normal');
+    this.hud.showStatus('MISSILE SIMULATOR ONLINE', 'normal');
 
     // Start loop
     this._animate();

@@ -65,7 +65,7 @@ export class Simulation {
     this.hud.clearMissileData();
     this.hud.updateStats(0, 0, 0);
     this.hud.setReticle(false);
-    this.hud.showStatus('AEGIS DEFENSE SYSTEM ONLINE', 'normal');
+    this.hud.showStatus('MISSILE SIMULATOR ONLINE', 'normal');
   }
 
   _launchBurst() {
