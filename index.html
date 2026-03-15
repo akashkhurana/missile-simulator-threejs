@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AEGIS Tactical Console — SAM Defense Simulation</title>
+  <meta name="description" content="Interactive 3D Surface-to-Air Missile defense simulation with cinematic visuals and real-time HUD." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <!-- Three.js Canvas -->
+  <div id="canvas-container"></div>
+
+  <!-- Screen flash overlay -->
+  <div id="screen-flash"></div>
+
+  <!-- HUD Overlay -->
+  <div id="hud">
+    <!-- Corner brackets -->
+    <div class="hud-corner top-left"></div>
+    <div class="hud-corner top-right"></div>
+    <div class="hud-corner bottom-left"></div>
+    <div class="hud-corner bottom-right"></div>
+
+    <!-- Top-left: Aircraft data -->
+    <div id="hud-aircraft" class="hud-panel top-left-panel">
+      <div class="hud-label">AIRCRAFT</div>
+      <div class="hud-row"><span class="hud-key">ALT</span><span id="aircraft-alt" class="hud-val">---</span><span class="hud-unit">m</span></div>
+      <div class="hud-row"><span class="hud-key">SPD</span><span id="aircraft-spd" class="hud-val">---</span><span class="hud-unit">m/s</span></div>
+      <div class="hud-row"><span class="hud-key">HDG</span><span id="aircraft-hdg" class="hud-val">---</span><span class="hud-unit">°</span></div>
+    </div>
+
+    <!-- Top-right: Missile data -->
+    <div id="hud-missile" class="hud-panel top-right-panel">
+      <div class="hud-label">MISSILE</div>
+      <div class="hud-row"><span class="hud-key">SPD</span><span id="missile-spd" class="hud-val">---</span><span class="hud-unit">m/s</span></div>
+      <div class="hud-row"><span class="hud-key">DST</span><span id="missile-dst" class="hud-val">---</span><span class="hud-unit">m</span></div>
+      <div class="hud-row"><span class="hud-key">TTI</span><span id="missile-tti" class="hud-val">---</span><span class="hud-unit">s</span></div>
+    </div>
+
+    <!-- Bottom-left: Radar -->
+    <div id="hud-radar" class="hud-panel bottom-left-panel">
+      <canvas id="radar-canvas" width="160" height="160"></canvas>
+      <div class="hud-label" style="margin-top:4px;">RADAR</div>
+    </div>
+
+    <!-- Center reticle -->
+    <div id="reticle" class="reticle hidden">
+      <div class="reticle-bracket tl"></div>
+      <div class="reticle-bracket tr"></div>
+      <div class="reticle-bracket bl"></div>
+      <div class="reticle-bracket br"></div>
+      <div class="reticle-diamond"></div>
+    </div>
+
+    <!-- Status message -->
+    <div id="hud-status" class="hud-status"></div>
+
+    <!-- Engagement stats -->
+    <div id="hud-engagement" class="hud-panel bottom-center-panel">
+      <span class="hud-key">LAUNCHED</span><span id="stat-launched" class="hud-val">0</span>
+      <span class="hud-sep">|</span>
+      <span class="hud-key">HITS</span><span id="stat-hits" class="hud-val">0</span>
+      <span class="hud-sep">|</span>
+      <span class="hud-key">MISS</span><span id="stat-miss" class="hud-val">0</span>
+    </div>
+  </div>
+
+  <!-- Controls Panel -->
+  <div id="controls">
+    <button id="btn-restart" class="ctrl-btn">↻ RESTART</button>
+    <div class="ctrl-slider-group">
+      <label class="ctrl-label">MISSILE SPD</label>
+      <input id="slider-mspeed" type="range" min="0.5" max="2" step="0.1" value="1" class="ctrl-slider" />
+      <span id="val-mspeed" class="ctrl-val">1.0x</span>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
