@@ -28,12 +28,13 @@ export class EffectsManager {
     canvas.height = size;
     const ctx = canvas.getContext('2d');
     const half = size / 2;
+    // Hard-edged concentric circles for toon fire
     const grad = ctx.createRadialGradient(half, half, 0, half, half, half);
     grad.addColorStop(0, 'rgba(255,255,200,1)');
-    grad.addColorStop(0.2, 'rgba(255,200,50,0.8)');
-    grad.addColorStop(0.5, 'rgba(255,100,0,0.4)');
-    grad.addColorStop(0.8, 'rgba(200,30,0,0.15)');
-    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    grad.addColorStop(0.3, 'rgba(255,255,200,1)');
+    grad.addColorStop(0.31, 'rgba(255,100,0,1)');
+    grad.addColorStop(0.7, 'rgba(255,100,0,1)');
+    grad.addColorStop(0.71, 'rgba(0,0,0,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, size, size);
     const tex = new THREE.CanvasTexture(canvas);
@@ -46,17 +47,15 @@ export class EffectsManager {
     canvas.height = size;
     const ctx = canvas.getContext('2d');
     const half = size / 2;
-    // Draw soft blobs for smoke
+    // Solid cartoon smoke blobs
+    ctx.fillStyle = 'rgba(80,80,80,0.9)';
     for (let i = 0; i < 5; i++) {
-      const bx = half + (Math.random() - 0.5) * size * 0.3;
-      const by = half + (Math.random() - 0.5) * size * 0.3;
-      const br = size * 0.2 + Math.random() * size * 0.2;
-      const grad = ctx.createRadialGradient(bx, by, 0, bx, by, br);
-      grad.addColorStop(0, 'rgba(80,80,80,0.4)');
-      grad.addColorStop(0.5, 'rgba(60,60,60,0.2)');
-      grad.addColorStop(1, 'rgba(40,40,40,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, size, size);
+      const bx = half + (Math.random() - 0.5) * size * 0.4;
+      const by = half + (Math.random() - 0.5) * size * 0.4;
+      const br = size * 0.15 + Math.random() * size * 0.25;
+      ctx.beginPath();
+      ctx.arc(bx, by, br, 0, Math.PI * 2);
+      ctx.fill();
     }
     return new THREE.CanvasTexture(canvas);
   }
@@ -188,10 +187,8 @@ export class EffectsManager {
     for (let i = 0; i < DEBRIS_COUNT; i++) {
       const size = randRange(0.5, 2.5);
       const geo = new THREE.BoxGeometry(size, size * 0.3, size * 0.5);
-      const mat = new THREE.MeshStandardMaterial({
+      const mat = new THREE.MeshToonMaterial({
         color: new THREE.Color().setHSL(0, 0, randRange(0.2, 0.5)),
-        metalness: 0.6,
-        roughness: 0.4,
       });
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.copy(pos);

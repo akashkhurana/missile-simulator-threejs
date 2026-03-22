@@ -39,13 +39,13 @@ export class SceneManager {
   _createBaseStructure() {
     // 1. Concrete Pad for launcher
     const padGeo = new THREE.BoxGeometry(40, 0.4, 40);
-    const padMat = new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.8 });
+    const padMat = new THREE.MeshToonMaterial({ color: 0x999999 });
     const pad = new THREE.Mesh(padGeo, padMat);
     pad.position.y = 0.2;
     this.scene.add(pad);
 
     // 2. Perimeter Fencing
-    const fenceMat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.8 });
+    const fenceMat = new THREE.MeshToonMaterial({ color: 0x222222 });
     const postGeo = new THREE.CylinderGeometry(0.1, 0.1, 3);
     const railGeo = new THREE.BoxGeometry(6, 0.1, 0.1);
 
@@ -83,7 +83,7 @@ export class SceneManager {
     for (let i = 0; i < 6; i++) {
         const crate = new THREE.Mesh(
             new THREE.BoxGeometry(4, 1.2, 1.2),
-            new THREE.MeshStandardMaterial({ color: 0x3d3d32 })
+            new THREE.MeshToonMaterial({ color: 0x6b4226 }) // Toy brown
         );
         crate.position.set(10 + (i % 2) * 5, 0.6, 12 + Math.floor(i/2) * 2);
         crate.rotation.y = Math.random() * 0.2;
@@ -93,7 +93,7 @@ export class SceneManager {
 
   _createRadarStations() {
     // Add distant radar towers on hilltops
-    const towerMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9, roughness: 0.1 });
+    const towerMat = new THREE.MeshToonMaterial({ color: 0xffffff });
     const positions = [
         { x: -600, z: -800 },
         { x: 700, z: -500 },
@@ -126,8 +126,8 @@ export class SceneManager {
 
   _createTruck(x, z, rot, type) {
     const group = new THREE.Group();
-    const bodyMat = new THREE.MeshStandardMaterial({ color: 0x3a4a2a });
-    const darkMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a });
+    const bodyMat = new THREE.MeshToonMaterial({ color: 0x00cc44 }); // Toy green
+    const darkMat = new THREE.MeshToonMaterial({ color: 0x222222 });
 
     const chassis = new THREE.Mesh(new THREE.BoxGeometry(8, 0.8, 3), bodyMat);
     chassis.position.y = 1;
@@ -155,8 +155,8 @@ export class SceneManager {
 
   _createHuman(x, z) {
     const group = new THREE.Group();
-    const clothMat = new THREE.MeshStandardMaterial({ color: 0x223344 });
-    const skinMat = new THREE.MeshStandardMaterial({ color: 0xe0ac69 });
+    const clothMat = new THREE.MeshToonMaterial({ color: 0x0055ff }); // Blue uniform
+    const skinMat = new THREE.MeshToonMaterial({ color: 0xffccaa });
 
     const body = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1.2, 0.3), clothMat);
     body.position.y = 0.8;
@@ -172,7 +172,7 @@ export class SceneManager {
   }
 
   _createGeology() {
-    const rockMat = new THREE.MeshStandardMaterial({ color: 0x777777, roughness: 0.9 });
+    const rockMat = new THREE.MeshToonMaterial({ color: 0x888888 }); // Flat grey
     for (let i = 0; i < 80; i++) {
         const size = randRange(1, 5);
         const geo = new THREE.IcosahedronGeometry(size, 0);
@@ -186,7 +186,7 @@ export class SceneManager {
         this.scene.add(rock);
     }
 
-    const bushMat = new THREE.MeshStandardMaterial({ color: 0x1a330a });
+    const bushMat = new THREE.MeshToonMaterial({ color: 0x00ff00 }); // Neon green
     for (let i = 0; i < 150; i++) {
         const bush = new THREE.Group();
         const size = randRange(1, 3);
@@ -208,11 +208,11 @@ export class SceneManager {
     const treeCount = isMobile() ? 20 : 80;
     for (let i = 0; i < treeCount; i++) {
         const trunkGeo = new THREE.CylinderGeometry(0.3, 0.6, 4);
-        const trunkMat = new THREE.MeshStandardMaterial({ color: 0x3d2b1f });
+        const trunkMat = new THREE.MeshToonMaterial({ color: 0x8b4513 });
         const trunk = new THREE.Mesh(trunkGeo, trunkMat);
 
         const foliageGeo = new THREE.ConeGeometry(2.5, 8, 6);
-        const foliageMat = new THREE.MeshStandardMaterial({ color: 0x142c0c });
+        const foliageMat = new THREE.MeshToonMaterial({ color: 0x32cd32 }); // Lime green
         const foliage = new THREE.Mesh(foliageGeo, foliageMat);
         foliage.position.y = 4.5;
 
@@ -233,7 +233,8 @@ export class SceneManager {
   }
 
   _createSky() {
-    const hemiLight = new THREE.HemisphereLight(0x87ceeb, 0x556b2f, 0.7);
+    // Brighter lighting for vivid cel shading
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x556b2f, 0.9);
     this.scene.add(hemiLight);
 
     const skyGeo = new THREE.SphereGeometry(2500, 32, 15);
@@ -267,14 +268,15 @@ export class SceneManager {
       depthWrite: false,
     });
     this.scene.add(new THREE.Mesh(skyGeo, skyMat));
-    this.scene.fog = new THREE.FogExp2(0xa4dcfa, 0.0004);
+    // Remove or lighten fog to keep colors popping
+    // this.scene.fog = new THREE.FogExp2(0xa4dcfa, 0.0004);
   }
 
   _createLighting() {
-    const sun = new THREE.DirectionalLight(0xfff4e6, 2.2);
+    const sun = new THREE.DirectionalLight(0xffffff, 3.0);
     sun.position.set(300, 500, 200);
     this.scene.add(sun);
-    const fill = new THREE.DirectionalLight(0x87ceeb, 0.7);
+    const fill = new THREE.DirectionalLight(0x87ceeb, 1.2);
     fill.position.set(-200, 300, -200);
     this.scene.add(fill);
   }
@@ -285,12 +287,12 @@ export class SceneManager {
     canvas.height = 1024;
     const ctx = canvas.getContext('2d');
 
-    // Grass Base (Dark)
-    ctx.fillStyle = '#1b3012';
+    // Grass Base (Vibrant)
+    ctx.fillStyle = '#2e9640';
     ctx.fillRect(0, 0, 1024, 1024);
 
-    // Agricultural Patchwork Fields
-    const fieldColors = ['#2d4c1e', '#3d5a2c', '#4d6a3c', '#253a15'];
+    // Agricultural Patchwork Fields (Candy colors)
+    const fieldColors = ['#3cba54', '#2e9640', '#1f7a2d', '#48d162'];
     for (let i = 0; i < 40; i++) {
         ctx.fillStyle = fieldColors[Math.floor(Math.random() * fieldColors.length)];
         const fw = 100 + Math.random() * 200;
@@ -326,7 +328,7 @@ export class SceneManager {
 
     const ground = new THREE.Mesh(
       groundGeo,
-      new THREE.MeshStandardMaterial({ map: texture, roughness: 1.0 })
+      new THREE.MeshToonMaterial({ map: texture })
     );
     ground.rotation.x = -Math.PI / 2;
     this.scene.add(ground);
@@ -338,21 +340,20 @@ export class SceneManager {
       const canvas = document.createElement('canvas');
       canvas.width = 256; canvas.height = 128;
       const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
       for (let b = 0; b < 7; b++) {
         const bx = 40 + Math.random() * 176;
         const by = 30 + Math.random() * 68;
-        const br = 30 + Math.random() * 50;
-        const grad = ctx.createRadialGradient(bx, by, 0, bx, by, br);
-        grad.addColorStop(0, `rgba(255,255,255,0.7)`);
-        grad.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(bx - br, by - br, br * 2, br * 2);
+        const br = 20 + Math.random() * 40;
+        ctx.beginPath();
+        ctx.arc(bx, by, br, 0, Math.PI * 2);
+        ctx.fill();
       }
       return new THREE.CanvasTexture(canvas);
     };
 
     for (let i = 0; i < count; i++) {
-      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: _makeCloudTex(), transparent: true, opacity: randRange(0.4, 0.9), depthWrite: false }));
+      const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: _makeCloudTex(), transparent: true, opacity: 1.0, depthWrite: false }));
       const scale = randRange(150, 400);
       sprite.scale.set(scale * 3, scale * 1.0, 1);
       sprite.position.set(randRange(-1500, 1500), randRange(400, 700), randRange(-1500, 500));

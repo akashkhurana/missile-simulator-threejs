@@ -69,12 +69,11 @@ export function proportionalNavigation(missilePos, missileVel, targetPos, target
 export function createFlightPath() {
   const points = [
     new THREE.Vector3(-600, 95, -50),
-    new THREE.Vector3(-300, 90, -70),
-    new THREE.Vector3(0, 100, -80),
-    new THREE.Vector3(300, 95, -60),
-    new THREE.Vector3(600, 90, -50),
-    new THREE.Vector3(900, 100, -70),
-    new THREE.Vector3(1200, 95, -60),
+    new THREE.Vector3(-300, 95, -100),
+    new THREE.Vector3(0, 95, -150),
+    new THREE.Vector3(300, 95, -200),
+    new THREE.Vector3(600, 95, -250),
+    new THREE.Vector3(900, 95, -300),
   ];
   return new THREE.CatmullRomCurve3(points, false, 'catmullrom', 0.5);
 }

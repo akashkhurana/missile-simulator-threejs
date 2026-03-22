@@ -10,8 +10,8 @@ export class CameraSystem {
     this.camera = camera;
     this.renderer = renderer;
 
-    // Initial position — slightly elevated, looking at the launcher area
-    this.camera.position.set(80, 40, 120);
+    // Initial position — slightly elevated, looking exactly North (-Z)
+    this.camera.position.set(0, 30, 150);
 
     // Orbit controls
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -24,7 +24,7 @@ export class CameraSystem {
     this.controls.maxDistance = 600;
     this.controls.maxPolarAngle = Math.PI * 0.48; // prevent going below ground
     this.controls.minPolarAngle = Math.PI * 0.05;
-    this.controls.target.set(0, 30, 0); // look at missile launch area
+    this.controls.target.set(0, 40, -50); // look towards the flight path
     this.controls.update();
 
     // Shake state
@@ -55,8 +55,8 @@ export class CameraSystem {
   }
 
   resetToDefault() {
-    this.camera.position.set(80, 40, 120);
-    this.controls.target.set(0, 30, 0);
+    this.camera.position.set(0, 30, 150);
+    this.controls.target.set(0, 40, -50);
     this.controls.update();
   }
 }

@@ -28,22 +28,16 @@ export class Aircraft {
     this.model = new THREE.Group();
     this.group.add(this.model);
 
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0x8899aa,
-      metalness: 0.6,
-      roughness: 0.3,
+    const mat = new THREE.MeshToonMaterial({
+      color: 0xff0055, // Vivid hot pink/red
     });
-    const matDark = new THREE.MeshStandardMaterial({
-      color: 0x556677,
-      metalness: 0.7,
-      roughness: 0.3,
+    const matDark = new THREE.MeshToonMaterial({
+      color: 0xaa0033, // Darker crimson
     });
-    const matGlass = new THREE.MeshStandardMaterial({
-      color: 0x88ccff,
-      metalness: 0.9,
-      roughness: 0.1,
+    const matGlass = new THREE.MeshToonMaterial({
+      color: 0x00ffff, // Bright cyan window
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.9,
     });
 
     // Fuselage

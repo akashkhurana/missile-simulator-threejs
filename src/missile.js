@@ -35,10 +35,11 @@ export class Missile {
   }
 
   _buildModel() {
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0xeeeeee,
-      metalness: 0.8,
-      roughness: 0.2,
+    const mat = new THREE.MeshToonMaterial({
+      color: 0xffffff, // Bright white body
+    });
+    const finMat = new THREE.MeshToonMaterial({
+      color: 0xff0000, // Bright red fins
     });
 
     // Body
@@ -61,7 +62,7 @@ export class Missile {
     // Fins
     const finGeo = new THREE.BoxGeometry(0.05, 0.8, 0.5);
     for (let i = 0; i < 4; i++) {
-      const fin = new THREE.Mesh(finGeo, mat);
+      const fin = new THREE.Mesh(finGeo, finMat);
       const angle = (i / 4) * Math.PI * 2;
       fin.position.set(Math.cos(angle) * 0.25, Math.sin(angle) * 0.25, 1.2);
       fin.rotation.z = angle;
@@ -102,8 +103,8 @@ export class Missile {
         void main() {
           float d = length(gl_PointCoord - vec2(0.5));
           if (d > 0.5) discard;
-          float fade = smoothstep(0.5, 0.1, d);
-          gl_FragColor = vec4(0.85, 0.85, 0.8, vAlpha * fade);
+          // Hard-edged circle instead of soft gradient
+          gl_FragColor = vec4(0.9, 0.9, 0.9, vAlpha);
         }
       `,
       transparent: true,

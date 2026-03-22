@@ -16,37 +16,25 @@ export class Launcher {
   }
 
   _buildS400() {
-    const matOlive = new THREE.MeshStandardMaterial({
-      color: 0x4a5a3a,
-      roughness: 0.85,
-      metalness: 0.2,
+    const matOlive = new THREE.MeshToonMaterial({
+      color: 0x00dd33, // Bright cartoon green
     });
-    const matDarkOlive = new THREE.MeshStandardMaterial({
-      color: 0x3a4a2a,
-      roughness: 0.85,
-      metalness: 0.2,
+    const matDarkOlive = new THREE.MeshToonMaterial({
+      color: 0x009922, // Darker green accent
     });
-    const matMetal = new THREE.MeshStandardMaterial({
-      color: 0x666666,
-      roughness: 0.4,
-      metalness: 0.7,
+    const matMetal = new THREE.MeshToonMaterial({
+      color: 0xdddddd, // Light cartoon metal
     });
-    const matTire = new THREE.MeshStandardMaterial({
-      color: 0x1a1a1a,
-      roughness: 0.95,
-      metalness: 0.05,
+    const matTire = new THREE.MeshToonMaterial({
+      color: 0x222222, // Solid dark grey tires
     });
-    const matCanister = new THREE.MeshStandardMaterial({
-      color: 0x5a6a4a,
-      roughness: 0.7,
-      metalness: 0.3,
+    const matCanister = new THREE.MeshToonMaterial({
+      color: 0x00ff44, // Neon green tubes
     });
-    const matGlass = new THREE.MeshStandardMaterial({
-      color: 0x6699aa,
-      metalness: 0.9,
-      roughness: 0.1,
+    const matGlass = new THREE.MeshToonMaterial({
+      color: 0x00ffff, // Cyan window
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.8,
     });
 
     // === CHASSIS / FLATBED ===
@@ -131,7 +119,9 @@ export class Launcher {
     // S-400 style: rectangular canisters angled ~70-80 degrees
     const canisterGroup = new THREE.Group();
     canisterGroup.position.set(3, 3, 0);
-    canisterGroup.rotation.z = Math.PI * 0.22; // ~40 degree elevation angle
+    // Tilt the canisters forward ("North") into the screen
+    canisterGroup.rotation.x = -Math.PI * 0.3; 
+    canisterGroup.rotation.z = 0; 
 
     for (let row = 0; row < 2; row++) {
       for (let col = 0; col < 2; col++) {
@@ -225,7 +215,7 @@ export class Launcher {
     this.group.add(this.launchFlash);
 
     // Scale and position
-    this.group.position.set(0, 0, 0);
+    this.group.position.set(0, 0, 60); // Move closer to camera
     this.group.scale.setScalar(1.8);
   }
 
@@ -236,9 +226,9 @@ export class Launcher {
   /** Missile spawn point — top of the canister tubes */
   getLaunchPoint() {
     return new THREE.Vector3(
-      this.group.position.x + 10,
-      this.group.position.y + 16,
-      this.group.position.z
+      this.group.position.x + 3,
+      this.group.position.y + 12,
+      this.group.position.z - 8
     );
   }
 
